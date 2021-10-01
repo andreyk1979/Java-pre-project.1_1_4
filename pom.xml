@@ -22,7 +22,8 @@
 
     <dependencies>
         <!--         Ваши зависимости-->
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <!-- https://mvnrepository.com/artifact/com.guicedee.services/hibernate-core -->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
