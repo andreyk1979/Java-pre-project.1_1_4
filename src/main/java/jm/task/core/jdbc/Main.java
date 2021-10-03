@@ -17,17 +17,17 @@ public class Main {
         userService.saveUser("Андрей1 ", " Куимов1 ", (byte) 41);
         userService.saveUser("Андрей2 ", " Куимов2 ", (byte) 42);
         userService.saveUser("Андрей3 ", " Куимов3 ", (byte) 43);
-        userService.saveUser("Андрей4 ", " Куимов4 ", (byte) 44);
+        userService.saveUser("Андрей3 ", " Куимов3 ", (byte) 43);
+
 //  Получение всех User из базы и вывод в консоль ( должен быть переопределен toString в классе User)
         List<User> allUsers = userService.getAllUsers();
         for (User user : allUsers) {
             System.out.println(user);
 
-        }
 //  Очистка таблицы User(ов)
-        userService.cleanUsersTable();
+            userService.cleanUsersTable();
 //  Удаление таблицы
-        userService.dropUsersTable();
+            userService.dropUsersTable();
+        }
     }
 }
-
