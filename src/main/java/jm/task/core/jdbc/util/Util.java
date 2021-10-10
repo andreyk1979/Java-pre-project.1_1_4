@@ -3,6 +3,7 @@ package jm.task.core.jdbc.util;
 
 import jm.task.core.jdbc.model.User;
 import org.hibernate.HibernateException;
+import org.hibernate.JDBCException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -43,22 +44,20 @@ public class Util {
                 settings.put(Environment.USER, DB_LOGIN);
                 settings.put(Environment.PASS, DB_PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-
                 //settings.put(Environment.SHOW_SQL, "true");
-
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+                // settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
-
-                configuration.setProperties(settings);
-
-                configuration.addAnnotatedClass(User.class);
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(configuration
+                                .addProperties(settings)
+                                .addAnnotatedClass(User.class)
+                                .getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
                 System.out.println("Удачное подключение к БД");
 
-            } catch (HibernateException exception){
-                System.out.println("Problem creating session factory");
+            } catch (HibernateException exception) {
+                System.out.println("Не получилось создать session factory");
                 exception.printStackTrace();
             }
         }
