@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,9 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM userdb.user";
-        try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Connection connection = Util.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -77,12 +80,28 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return  users;
+        return users;
     }
 
+    @Override
+    public void getUser() {
+
+        String sql = "SELECT * FROM userdb.user";
+        try (Connection connection = Util.getConnection();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                     ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            resultSet.absolute(2);
+            sql = resultSet.getString(2);
+            System.out.println(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void cleanUsersTable() {
-        try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = Util.getConnection();
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE userdb.user");
             System.out.println("Таблица очищена");
         } catch (SQLException e) {

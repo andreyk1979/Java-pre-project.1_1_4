@@ -106,6 +106,11 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
+    public void getUser() {
+
+    }
+
+    @Override
     public void cleanUsersTable() {
         Transaction transaction = null;
         try (Session session = Util.getSessionFactory().openSession()) {

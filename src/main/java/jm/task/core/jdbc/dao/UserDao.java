@@ -18,4 +18,7 @@ public interface UserDao {
     void removeUserById(long id);
 
     void cleanUsersTable();
+
+    void getUser();
+
 }
